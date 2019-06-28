@@ -32,7 +32,7 @@ class ListarProdutos extends Component {
                                     <img class="card-img-top" src={produto.caminho_img} alt="Card image cap"/>
                                     <div class="card-body">
                                         <h5 class="card-title">{produto.nome}</h5>
-                                        <p class="card-text">Txto</p>
+                                        <p class="card-text">{produto.descricao}</p>
                                         <a href="#" class="btn btn-primary">Ir para o produto</a>
                                     </div>
                                 </div>

@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import {ListarProdutos} from './components';
+import {ListarProdutos, ListarPedidos} from './components';
+import {Header} from './components';
 import './App.css';
 
 function App() {
   return (
-  <div className="App container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">BTH</a>
-    </nav>
-    <Switch>
-      <Route path="/" exact component={ListarProdutos} />
-    </Switch>
+    <div>
+      <Header/>
+      <div>
+        <Switch>
+          <Route path="/" exact component={ListarProdutos} />
+          <Route path="/pedidos" exact component={ListarPedidos} />
+        </Switch>
+      </div>
     </div>
   );
 }
