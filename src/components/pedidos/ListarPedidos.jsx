@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Data} from '../../store/data';
 import { Link } from 'react-router-dom';
-
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckSquare, faCoffee, faPlus, faRecycle, faTrash, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons'
 class ListarPedidos extends Component {
     constructor(props) {
         super(props);
@@ -23,12 +23,12 @@ class ListarPedidos extends Component {
 
     removeItensPedido(pedido, produto){
 
-        this.state.pedidos.map((pedido))
-        let pedido = this.state.pedidos.filter(p => p.id == pedido.id)[0]
+        /*this.state.pedidos.map((pedido))
+        let ped = this.state.pedidos.filter(p => p.id == pedido.id)[0]
 
-        let item = pedido.itens_pedidos.findIndex(i => i.id_produto == produto.id)
+        let item = ped.itens_pedidos.findIndex(i => i.id_produto == produto.id)
 
-        pedido.itens_pedidos.splice(item,1)
+        ped.itens_pedidos.splice(item,1)*/
 
         return false
     }
@@ -83,7 +83,7 @@ class ListarPedidos extends Component {
                                                     <tr>
                                                         <td>
                                                             <button type="button" class="close" aria-label="Close" onClick={() => this.removeItensPedido(pedido, produto)}>
-                                                                <span aria-hidden="true">&times;</span>
+                                                                <FontAwesomeIcon icon={faTimes}/>
                                                             </button>
                                                         </td>
                                                         <td>
@@ -104,8 +104,9 @@ class ListarPedidos extends Component {
                                                     <td>{parseFloat(pedido.preco_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td colSpan='2'><button className='btn btn-danger'>Cancelar Pedido</button></td>
-                                                    <td colSpan='2'><button className='btn btn-success'>Adicionar Item</button></td>
+                                                    <td><button className='btn btn-danger' alt='Cancelar pedido'><FontAwesomeIcon icon={faTrash}/></button></td>
+                                                    <td><button className='btn btn-primary'><FontAwesomeIcon icon={faEdit}/></button></td>
+                                                    <td><button className='btn btn-success'><FontAwesomeIcon icon={faPlus}/></button></td>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -116,9 +117,12 @@ class ListarPedidos extends Component {
                         )
                     })}
                 </div>
-                <div className="footer">
-                    <button className='btn btn-primary'>Adicionar Pedido</button>
-                </div>
+                <footer class="footer">
+                    <div class="container">
+                        <button className='btn btn-primary'>Adicionar Pedido</button>
+                    </div>
+                </footer>
+                    
             </div>
         );
     }

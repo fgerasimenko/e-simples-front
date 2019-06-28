@@ -5,6 +5,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap'
 import 'jquery';
 import 'popper.js';
+import '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/react-fontawesome';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
@@ -18,3 +21,4 @@ ReactDOM.render(<BrowserRouter>
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+

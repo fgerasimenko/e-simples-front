@@ -23,9 +23,9 @@
   color: #61dafb;
 }
 
-.footer{
-  height: 30px;
-  position: fixed;
+.container{
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 @keyframes App-logo-spin {
