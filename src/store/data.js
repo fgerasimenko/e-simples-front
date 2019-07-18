@@ -157,7 +157,9 @@ export const Data = {
             status: 'P',
             preco_total: 0
         }
-    ]
+    ],
+    marcas: ['Zomo','Blue Horse','Dozaj'],
+    tipos: ['Consumo','Essência','Narguile','Rosh','Vaso']
 }
 
 export default Data;
