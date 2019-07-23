@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/e-simples-front/static/css/main.9edc659e.chunk.css",
+    "main.js": "/e-simples-front/static/js/main.be2d2c00.chunk.js",
+    "main.js.map": "/e-simples-front/static/js/main.be2d2c00.chunk.js.map",
+    "runtime~main.js": "/e-simples-front/static/js/runtime~main.a7548dc3.js",
+    "runtime~main.js.map": "/e-simples-front/static/js/runtime~main.a7548dc3.js.map",
+    "static/css/2.510409cd.chunk.css": "/e-simples-front/static/css/2.510409cd.chunk.css",
+    "static/js/2.62d28de2.chunk.js": "/e-simples-front/static/js/2.62d28de2.chunk.js",
+    "static/js/2.62d28de2.chunk.js.map": "/e-simples-front/static/js/2.62d28de2.chunk.js.map",
+    "index.html": "/e-simples-front/index.html",
+    "precache-manifest.59d8bdca42c9f2aff13437da0f55b552.js": "/e-simples-front/precache-manifest.59d8bdca42c9f2aff13437da0f55b552.js",
+    "service-worker.js": "/e-simples-front/service-worker.js",
+    "static/css/2.510409cd.chunk.css.map": "/e-simples-front/static/css/2.510409cd.chunk.css.map",
+    "static/css/main.9edc659e.chunk.css.map": "/e-simples-front/static/css/main.9edc659e.chunk.css.map"
+  }
+}
