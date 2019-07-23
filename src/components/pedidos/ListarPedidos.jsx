@@ -119,7 +119,7 @@ class ListarPedidos extends Component {
                 </div>
                 <footer class="footer">
                     <div class="container">
-                        <button className='btn btn-primary'>Adicionar Pedido</button>
+                        <Link to={{pathname: '/pedido/:pedido_id'}} className="btn btn-primary">Adicionar Pedido</Link>
                     </div>
                 </footer>
                     
