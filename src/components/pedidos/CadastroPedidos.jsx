@@ -3,6 +3,7 @@ import CurrencyFormat from 'react-currency-format';
 import {Data} from '../../store/data';
 import { Link } from 'react-router-dom';
 import MaskedInput from 'react-text-mask';
+import './CadastroPedidos.css'
 
 
 class CadastroPedidos extends Component {
@@ -10,6 +11,7 @@ class CadastroPedidos extends Component {
         super(props);
         this.state = {
             produtos: [],
+            filtrados: [],
             itens_pedido: [],
             marcas: [],
             tipos: [],
@@ -17,10 +19,41 @@ class CadastroPedidos extends Component {
             nome_produto: "",
             qtd_produto: 0,
             preco_produto: 0,
+            desconto: 0,
             mensagem: "",
             classe_mensagem: "",
-            alerta: false
+            alerta: false,
+            showMenu: false
         }
+        this.escolherProduto = this.escolherProduto.bind(this)
+    }
+    searchInput = (e) => {
+        let mudanca = {}
+        mudanca[e.target.name] = e.target.value;
+        mudanca.showMenu = true
+        this.setState(mudanca);
+
+
+
+        let produtos = []
+        let filtrados = [];
+        console.log(e.target)
+        if(e.target.value !== ''){
+            produtos = this.state.produtos
+
+            filtrados = produtos.filter((produto) =>{
+                const lc = produto.nome.toLowerCase()
+                const filter = e.target.value.toLowerCase()
+                
+                return lc.includes(filter)
+            });
+        }else{
+            produtos = this.state.produtos
+        }
+
+        this.setState({
+            filtrados: filtrados
+        })
     }
 
     handleChange = (e) => {
@@ -36,32 +69,55 @@ class CadastroPedidos extends Component {
         return true
     }
 
-    adicionarItem = () =>{
+    escolherProduto = (e, produto) => {
+        console.log(produto)
+
         
+        this.setState({
+            nome_produto: produto.nome,
+            id_produto: produto.id,
+            preco_produto: produto.preco_venda,
+            showMenu: !this.state.showMenu
+        })
+    }
+
+    adicionarItem = () =>{
         let itens = this.state.itens_pedido
         let id = Math.floor(Math.random() * 100) + 1//this.state.id_produto
         let nome = this.state.nome_produto
         let qtd = this.state.qtd_produto
-        let preco = this.state.preco_produto ? 0 : this.state.preco_produto
-        console.log(id)
+        let desconto = this.state.desconto
+        let preco = this.state.preco_produto ? this.state.preco_produto : 0
+
+        if(preco > 0 && desconto > 0){
+            if(desconto > preco){
+                this.setState({
+                    classe_mensagem: "alert alert-danger",
+                    mensagem: "O desconto deve ser menor que o preço",
+                    alerta: !this.state.alerta
+                })
+            }
+        }
+
         if(qtd < 0.5){
             this.setState({
                 classe_mensagem: "alert alert-danger",
                 mensagem: "A quantidade tem que ser maior que 0",
                 alerta: !this.state.alerta
             })
-
             return false
         }
-            
 
         itens.push({
             id_produto: id,
             nome_produto: nome,
             qtd_produto: qtd,
             preco_produto: preco,
+            desconto: desconto,
             status: "Preparando"
         })
+
+        console.log(itens)
 
         this.setState({
             itens_pedido: itens
@@ -81,10 +137,16 @@ class CadastroPedidos extends Component {
     }
 
     componentDidMount(){
+        let produtos = Data.produtos
 
+        this.setState({
+            produtos: produtos,
+            filtrados: produtos
+        })
     }
 
     render(){
+        const procurar = this.state.showMenu ? 'block' : 'none';
         return (
             <div className="container">
                 <div className="row">
@@ -105,15 +167,41 @@ class CadastroPedidos extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-9">
+                            <div className="col-md-6">
                                 <div className="form-group">
                                     <label for="nome_produto">Nome do Produto</label>
-                                    <input  type="text" 
+                                    <div class="dropdown">
+                                        <input  type="text" 
+                                                onChange={this.searchInput}
+                                                value={this.state.nome_produto}
+                                                name='nome_produto'
+                                                className="form-control dropbtn" 
+                                                id="nome_produto"
+                                                placeholder="Procurar..." 
+                                                aria-label="Search"/>
+                                        <div class="dropdown-content" style={{display: procurar}}>
+                                            {this.state.filtrados.map((produto,i) =>{
+                                                return(
+                                                <div key={i} className="dropdown-option" onClick={(e) => {this.escolherProduto(e,produto)}}>
+                                                    <span class="nome-produto">{produto.nome}</span> - 
+                                                    <span>
+                                                        {parseFloat(produto.preco_venda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                                    </span>
+                                                </div>)
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="form-group">
+                                    <label for="desconto">Desconto</label>
+                                    <input  type="number" 
                                             onChange={this.handleChange}
-                                            value={this.state.nome_produto}
-                                            name='nome_produto'
+                                            value={this.state.desconto}
+                                            name='desconto'
                                             className="form-control" 
-                                            id="nome_produto"/>
+                                            id="desconto"/>
                                 </div>
                             </div>
                             <div className="col-md-3">
@@ -165,11 +253,13 @@ class CadastroPedidos extends Component {
                                             <td>{item.nome_produto}</td>
                                             <td>{item.preco_produto}</td>
                                             <td>{item.qtd_produto}</td>
-                                            <td>{item.preco_produto * item.qtd_produto}</td>
+                                            <td>{(item.preco_produto - item.desconto) * item.qtd_produto}</td>
                                             <td>
                                                 <button className="btn btn-danger" onClick={(e)=>this.excluirItem(item)}>Excluir</button>
                                             </td>
-                                        </tr>)})}
+                                        </tr>)
+                                    })
+                                }
                         </tbody>
                     </table>
                 </div>

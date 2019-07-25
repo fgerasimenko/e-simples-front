@@ -11,7 +11,8 @@ function App() {
       <Header/>
       <div>
         <Switch>
-          <Route path="/" exact component={ListarProdutos} />
+          <Route path="/" exact component={ListarPedidos} />
+          <Route path="/produtos" exact component={ListarProdutos} />
           <Route path="/produto/:produto_id" exact component={CadastroProduto}/>
           <Route path="/pedidos" exact component={ListarPedidos} />
           <Route path="/pedido/:pedido_id" exact component={CadastroPedidos} />

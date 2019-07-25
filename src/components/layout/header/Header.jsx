@@ -31,7 +31,7 @@ class Header extends Component {
                             </button>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <Link className="nav-item dropdown-item" to={{pathname: '/produto/:produto_id'}}>Cadastro de Produto</Link>
-                                <Link className="nav-item dropdown-item" to={{pathname: '/produto/:produto_id'}}>Cadastro de Pedidos</Link>
+                                <Link className="nav-item dropdown-item" to={{pathname: '/pedido/:pedido_id'}}>Cadastro de Pedidos</Link>
                             </div>
                         </li>
                     </ul>
