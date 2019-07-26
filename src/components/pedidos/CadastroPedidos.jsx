@@ -27,6 +27,7 @@ class CadastroPedidos extends Component {
         }
         this.escolherProduto = this.escolherProduto.bind(this)
     }
+
     searchInput = (e) => {
         let mudanca = {}
         mudanca[e.target.name] = e.target.value;
@@ -129,10 +130,45 @@ class CadastroPedidos extends Component {
         let itens = this.state.itens_pedido
 
         itens = itens.filter(i => i.id_produto != item.id_produto)
-
+        
         this.setState({
             itens_pedido: itens
         })
+
+    }
+
+    gerarCSV = () => {
+
+        let dados = this.state.itens_pedido
+        let csvContent = `\uFEFF`
+
+        let cabecalho = ['#','Status','Nome do Produto','Preço Unitário','Quantidade','Preço Total'].join(';')
+        csvContent += cabecalho
+        csvContent += '\n'
+        let linhas = []        
+        dados.map((produto, i) => {
+            let preco_total = (produto.preco_produto * produto.qtd_produto)
+            preco_total -= produto.desconto
+            csvContent += [ `${i+1}`,
+                            produto.status,
+                            produto.nome_produto,
+                            parseFloat(produto.preco_produto).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                            produto.qtd_produto,
+                            parseFloat(preco_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })].join(';')
+            
+            csvContent += '\n'
+        })
+
+        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        var link = document.createElement("a");
+        var url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", 'pedido.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+
+        link.remove()
 
     }
 
@@ -262,6 +298,14 @@ class CadastroPedidos extends Component {
                                 }
                         </tbody>
                     </table>
+                </div>
+                <div className="row align-items-center justify-content-center">
+                    <div className="col-md-6 d-flex align-items-center justify-content-center">
+                        <button className="btn btn-success" disabled>Salvar</button>
+                    </div>
+                    <div className="col-md-6 d-flex align-items-center justify-content-center">
+                        <button className="btn btn-primary" onClick={this.gerarCSV}>Gerar CSV</button>
+                    </div>
                 </div>
             </div>
         );
