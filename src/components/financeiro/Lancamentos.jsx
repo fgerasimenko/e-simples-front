@@ -4,7 +4,16 @@ import {Data} from '../../store/data';
 import { Link } from 'react-router-dom';
 import MaskedInput from 'react-text-mask';
 
+const Total = (pedidos) =>{
+    //let pedidos = this.state.pedidos
+    console.log(pedidos)
+    let total = 0
 
+    pedidos.map(pedido=>{
+        total += pedido.preco_total
+    })
+    return (<td>{total}</td>) //NÃO FUNCIONA AINDA
+}
 class Lancamentos extends Component {
     constructor(props) {
         super(props);
@@ -13,6 +22,8 @@ class Lancamentos extends Component {
             pedidos: []
         }
     }
+
+    
 
     searchInput = (e) => {
         let mudanca = {}
@@ -52,22 +63,20 @@ class Lancamentos extends Component {
 
     gerarCSV = () => {
 
-        let dados = this.state.itens_pedido
+        let dados = this.state.pedidos
         let csvContent = `\uFEFF`
-
-        let cabecalho = ['#','Status','Nome do Produto','Preço Unitário','Quantidade','Preço Total'].join(';')
+        console.log(dados)
+        let cabecalho = ['#','Número Pedido','Data do Pedido','Qtd Itens','Status','Total'].join(';')
         csvContent += cabecalho
         csvContent += '\n'
         let linhas = []        
-        dados.map((produto, i) => {
-            let preco_total = (produto.preco_produto * produto.qtd_produto)
-            preco_total -= produto.desconto
+        dados.map((pedido, i) => {
             csvContent += [ `${i+1}`,
-                            produto.status,
-                            produto.nome_produto,
-                            parseFloat(produto.preco_produto).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
-                            produto.qtd_produto,
-                            parseFloat(preco_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })].join(';')
+                            pedido.id,
+                            pedido.data_pedido,
+                            0,
+                            pedido.status,
+                            pedido.preco_total]
             
             csvContent += '\n'
         })
@@ -76,7 +85,7 @@ class Lancamentos extends Component {
         var link = document.createElement("a");
         var url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
-        link.setAttribute("download", 'pedido.csv');
+        link.setAttribute("download", 'pedidos.csv');
         link.style.visibility = 'hidden';
         document.body.appendChild(link);
         link.click();
@@ -88,7 +97,6 @@ class Lancamentos extends Component {
     componentDidMount(){
         let produtos = Data.produtos
         let pedidos = Data.pedidos
-        console.log(pedidos.itens_pedido)
         
         this.setState({
             produtos: produtos,
@@ -114,12 +122,16 @@ class Lancamentos extends Component {
                                 return (
                                     <tr key={i}>
                                         <td>{pedido.id}</td>
-                                        <td>{pedido.data_pedido}</td>
-                                        <td>0</td>
+                                        <td>{pedido.data_pedido.toLocaleString()}</td>
+                                        <td>{pedido.itens_pedidos.length}</td>
                                         <td>{pedido.status}</td>
-                                        <td>{pedido.preco_total}</td>
+                                        <td>{parseFloat(pedido.preco_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     </tr>)
                             })}
+                            <tr>
+                                <td colSpan="4" className="text-right">TOTAL</td>
+                                <Total pedidos={this.state.pedidos}/>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

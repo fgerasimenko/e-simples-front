@@ -120,7 +120,7 @@ export const Data = {
             preco_total: 0
         },
         {
-            id: 1,
+            id: 3,
             id_cliente: null,
             data_pedido: new Date(),
             data_alteracao: null,
@@ -139,7 +139,7 @@ export const Data = {
             preco_total: 0
         },
         {
-            id: 1,
+            id: 4,
             id_cliente: null,
             data_pedido: new Date(),
             data_alteracao: null,
@@ -152,6 +152,11 @@ export const Data = {
             {
                 id_produto: 2,
                 quantidade: 3,
+                status: 'P'
+            },
+            {
+                id_produto: 4,
+                quantidade: 2,
                 status: 'P'
             }],
             status: 'P',
